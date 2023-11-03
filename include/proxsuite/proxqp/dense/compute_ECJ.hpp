@@ -75,6 +75,7 @@ compute_backward(dense::QP<T>& solved_qp,
       solved_qp.results,
       solved_qp.which_dense_backend(),
       solved_qp.which_hessian_type());
+    dense::isize n_active_ineq = solved_qp.work.active_inequalities.count();
     solved_qp.work.n_c = 0;
     for (isize i = 0; i < solved_qp.model.n_in; i++) {
       solved_qp.work.current_bijection_map(i) = i;
@@ -83,7 +84,7 @@ compute_backward(dense::QP<T>& solved_qp,
     linesearch::active_set_change(solved_qp.model,
                                   solved_qp.results,
                                   solved_qp.which_dense_backend(),
-                                  solved_qp.work.n_c,
+                                  n_active_ineq,
                                   solved_qp.work);
     solved_qp.work.constraints_changed = false; // no refactorization afterwards
 
